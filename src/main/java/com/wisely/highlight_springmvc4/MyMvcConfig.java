@@ -4,10 +4,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+
+import com.wisely.highlight_springmvc4.interceptor.DemoInterceptor;
 
 @Configuration
 @EnableWebMvc
@@ -28,4 +31,16 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter{
 		
 		registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/");
 	}
+	
+	@Bean
+	public DemoInterceptor getDemoInterceptor(){
+		return new DemoInterceptor();
+	}
+	
+	//重写方法，增加自定义拦截器
+	public void addInterceptors(InterceptorRegistry interceptorregistry)
+    {
+		interceptorregistry.addInterceptor(getDemoInterceptor());
+    }
+	
 }
