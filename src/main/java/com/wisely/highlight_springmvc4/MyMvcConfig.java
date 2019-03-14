@@ -1,8 +1,11 @@
 package com.wisely.highlight_springmvc4;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -15,6 +18,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 import com.wisely.highlight_springmvc4.interceptor.DemoInterceptor;
+import com.wisely.highlight_springmvc4.messageconverter.MyMessageConverter;
 
 @Configuration
 @EnableWebMvc
@@ -51,6 +55,7 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter{
 	public void addViewControllers(ViewControllerRegistry registry){
 		registry.addViewController("/index").setViewName("/index");
 		registry.addViewController("/toUpload").setViewName("/upload");
+		registry.addViewController("/converter").setViewName("/converter");
 	}
 	
 	//重写该方法  可以使项目不忽略“.”后面的参数
@@ -67,4 +72,13 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter{
 		return multipartResolver;
 	}
 	
+	//注册HttpMessageConverter
+	public void extendMessageConverters(List<HttpMessageConverter<?>> converters){
+		converters.add(converter());
+	}
+	
+	@Bean
+	public MyMessageConverter converter(){
+		return new MyMessageConverter();
+	}
 }
