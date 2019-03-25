@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -22,6 +23,7 @@ import com.wisely.highlight_springmvc4.messageconverter.MyMessageConverter;
 
 @Configuration
 @EnableWebMvc
+@EnableScheduling
 @ComponentScan("com.wisely.highlight_springmvc4")
 public class MyMvcConfig extends WebMvcConfigurerAdapter{
 
@@ -56,6 +58,10 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter{
 		registry.addViewController("/index").setViewName("/index");
 		registry.addViewController("/toUpload").setViewName("/upload");
 		registry.addViewController("/converter").setViewName("/converter");
+		//添加转向sse.jsp页面的映射
+		registry.addViewController("/sse").setViewName("/sse");
+		//添加转向async.jsp页面的影视
+		registry.addViewController("/async").setViewName("/async");
 	}
 	
 	//重写该方法  可以使项目不忽略“.”后面的参数
